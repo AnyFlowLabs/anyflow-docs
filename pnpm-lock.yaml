@@ -9,10 +9,10 @@ importers:
   .:
     dependencies:
       '@docusaurus/core':
-        specifier: 3.4.0
+        specifier: ^3.4.0
         version: 3.4.0(@docusaurus/types@3.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.2.2)
       '@docusaurus/preset-classic':
-        specifier: 3.4.0
+        specifier: ^3.4.0
         version: 3.4.0(@algolia/client-search@4.24.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.16.2)(typescript@5.2.2)
       '@mdx-js/react':
         specifier: ^3.0.0
@@ -31,13 +31,13 @@ importers:
         version: 18.3.1(react@18.3.1)
     devDependencies:
       '@docusaurus/module-type-aliases':
-        specifier: 3.4.0
+        specifier: ^3.4.0
         version: 3.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@docusaurus/tsconfig':
-        specifier: 3.4.0
+        specifier: ^3.4.0
         version: 3.4.0
       '@docusaurus/types':
-        specifier: 3.4.0
+        specifier: ^3.4.0
         version: 3.4.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       typescript:
         specifier: ~5.2.2
@@ -6550,7 +6550,7 @@ snapshots:
 
   '@types/sax@1.2.7':
     dependencies:
-      '@types/node': 17.0.45
+      '@types/node': 22.2.0
 
   '@types/send@0.17.4':
     dependencies:
