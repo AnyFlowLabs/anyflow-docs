@@ -11,6 +11,12 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     steps:
+      - name: Discord Webhook Action
+        uses: tsickert/discord-webhook@v5.3.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          content: "Docs repository was updated. Deploying to production..."
+
       - name: Checkout repository
         uses: actions/checkout@v4
 
@@ -39,6 +45,7 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           SOURCE_DIR: 'build'
+
       - name: Invalidate AWS CloudFront
         uses: chetan/invalidate-cloudfront-action@v2
         env:
@@ -47,3 +54,9 @@ jobs:
           AWS_REGION: "us-east-1"
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Discord Webhook Action
+        uses: tsickert/discord-webhook@v5.3.0
+        with:
+          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          content: "Docs Deployed to production. Available at: https://docs.anyflow.pro"
