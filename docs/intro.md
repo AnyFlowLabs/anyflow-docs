@@ -35,7 +35,7 @@ Once your repository is connected, configure your deployment:
 Select the blockchain networks you wish to deploy to (e.g., Ethereum, Polygon).
 Configure any environment variables and deployment settings specific to your project.
 
-If you used environment variables in your deployment scripts, you can set them here. **DO NOT PASTE PRIVATE KEYS HERE**. They're not needed. For more info visit our [How AnyFlow Works](/docs/how_it_works#private-keys) page.
+If you used environment variables in your deployment scripts, you can set them here. **DO NOT PASTE PRIVATE KEYS HERE**. They're not needed. For more info visit our [How AnyFlow Works](/docs/how_it_works/1_private_keys.md) page.
 
 ![](./img/config.png)
 
