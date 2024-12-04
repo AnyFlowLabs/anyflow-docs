@@ -75,6 +75,7 @@ const config: Config = {
           label: 'Getting Started',
         },
         { to: '/docs/how_it_works', label: 'How it works', position: 'left' },
+        { to: '/docs/anyflow_cli', label: 'Anyflow CLI', position: 'left' },
         { to: '/docs/faq', label: 'FAQ', position: 'left' },
         // { to: '/blog', label: 'Blog', position: 'left' },
         {
@@ -94,6 +95,7 @@ const config: Config = {
               label: 'Getting Started',
               to: '/docs/intro',
             },
+            { label: 'Anyflow CLI', to: '/docs/anyflow_cli' },
           ],
         },
         {
