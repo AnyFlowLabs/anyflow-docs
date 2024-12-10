@@ -4,8 +4,6 @@ sidebar_position: 2
 
 # Authenticating
 
-## Authentication Process
-
 1. **Authenticate**: Run the following command to authenticate your session:
 
    ```bash
@@ -13,9 +11,9 @@ sidebar_position: 2
    ```
 
    **Steps to Authenticate:**
-   - This command will open the [AnyFlow Developer Portal](https://anyflow.pro/dev) in your browser.
+   - This command will open the [AnyFlow Web Application](https://app.anyflow.pro) in your browser.
    - Log in using your GitHub account.
-   - Once logged in, copy your API key.
+   - Once logged in, go to your [API Keys](https://app.anyflow.pro/settings/api) setting and copy it.
    - Return to your terminal and enter the API key when prompted to complete the authentication process.
 
 2. **API Key Storage:**
