@@ -36,9 +36,17 @@ You can always check the status of the RPC providers on our [chains page](https:
 
 We support Etherscan and Blockscout for Ethereum-based networks. To change your preferred block explorer, you can update the configuration in your [settings page](https://app.anyflow.pro/settings/block-search).
 
+### How to request a new chain to be added?
+
+Fill this form: [Request a new chain](https://docs.google.com/forms/d/e/1FAIpQLScV-Y69WqbciEtNhWGmzsj_6U2EB9kk4FW2cVRIohv4JrX8SQ/viewform)
+
 ### Who owns the private keys used for deployment?
 
 Check our [How AnyFlow Works documentation](./how_it_works/1_private_keys.md) for more information.
+
+### Why is the chain I want to deploy to disabled?
+
+A chain can be disabled if it is experiencing issues, if it is not supported by AnyFlow, or if has no deployer accounts available at the moment.
 
 ### What if I do not want the contract to be verified?
 
