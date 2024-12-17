@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # Getting Started
@@ -9,6 +9,8 @@ Welcome to AnyFlow, the platform designed to simplify and automate the deploymen
 <!-- ## Overview
 AnyFlow enables web3 developers to deploy smart contracts across multiple blockchains with ease. Whether you're a solo developer or part of a larger team, AnyFlow provides the tools and workflows to streamline your deployment process. No more RPC configurations, API key management, faucets or chain-specific settings — AnyFlow handles it all for you. -->
 
+If you have any questions or need help, feel free to reach out to us on [Discord](https://discord.gg/aCygGwBWya) or [Twitter/X](https://x.com/anyflow_).
+,
 ## Step 0: Fork our Hello World project
 
 If you do not have a project to deploy, you can fork our Hello World project to get started fast. This Hardhat project contains a simple smart contract that you can deploy to any supported chain to quickly test AnyFlow.
