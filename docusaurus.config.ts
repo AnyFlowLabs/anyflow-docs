@@ -37,10 +37,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          // Please change this to your repo.
-          // Remove this to remove the "edit this page" links.
-          // editUrl:
-          //   'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          sidebarCollapsed: false,
         },
         blog: false,
         gtag: {
@@ -86,7 +83,8 @@ const config: Config = {
 
           // Write concatenated MD content
           const concatenatedPath = path.join(outDir, "llms-full.txt");
-          await fs.promises.writeFile(concatenatedPath, allMd.join("\n\n---\n\n"));
+          const allContent = allMd.join("\n\n---\n\n")
+          await fs.promises.writeFile(concatenatedPath, allContent);
 
           // we need to dig down several layers:
           // find PluginRouteConfig marked by plugin.name === "docusaurus-plugin-content-docs"
@@ -103,7 +101,7 @@ const config: Config = {
 
           // A little type checking first
           if (!allDocsRouteConfig?.props?.version) {
-            llmsTxt = ''
+            llmsTxt = allContent
           } else {
             // this route config has a `props` property that contains the current documentation.
             const currentVersionDocsRoutes = (
