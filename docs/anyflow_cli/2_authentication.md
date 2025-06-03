@@ -22,7 +22,7 @@ sidebar_position: 2
    - By default, your API key will be securely stored in your system's keychain.
    - The storage method is automatically handled by the CLI to ensure maximum security.
    - If keychain access is not available, the API key will be encrypted and stored in `~/.anyflow`.
-   - You can try to troubleshoot the keychain access issue [here](./4_keytar_troubleshoot.md).
+   <!-- - You can try to troubleshoot the keychain access issue [here](./4_keytar_troubleshoot.md). -->
 
 3. **Verify Authentication**: After successful authentication, verify your login status by running:
 
