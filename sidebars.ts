@@ -19,25 +19,12 @@ const sidebars: SidebarsConfig = {
       label: 'Others',
       items: [
         {
-          type: 'link',
-          label: 'llms.txt',
-          href: '/llms.txt',
+          // Note: this is a workaround to open the llms.txt file in a new tab and
+          // prevent navigation issues
+          type: 'html',
+          value: '<a class="menu__link" href="/llms.txt" target="_blank">llms.txt</a>',
+          defaultStyle: true,
         },
-        // {
-        //   type: 'link',
-        //   label: 'GitHub',
-        //   href: 'https://github.com/AnyFlowLabs',
-        // },
-        // {
-        //   type: 'link',
-        //   label: 'Discord',
-        //   href: 'https://discord.com/invite/aCygGwBWya',
-        // },
-        // {
-        //   type: 'link',
-        //   label: 'Twitter',
-        //   href: 'https://x.com/anyflow_',
-        // },
       ],
     },
   ],

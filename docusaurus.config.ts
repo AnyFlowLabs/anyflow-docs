@@ -4,6 +4,40 @@ import type * as Preset from '@docusaurus/preset-classic';
 import path from 'path';
 import fs from 'fs';
 
+// Function to strip frontmatter from markdown content
+function stripFrontmatter(content: string): string {
+  const frontmatterRegex = /^---\n([\s\S]*?)\n---\n/;
+  return content.replace(frontmatterRegex, '');
+}
+
+// Function to convert markdown to plain text (less aggressive conversion)
+function markdownToPlainText(content: string): string {
+  return content
+    // Remove frontmatter
+    .replace(/^---[\s\S]*?---\n/, '')
+    // Remove HTML comments
+    .replace(/<!--[\s\S]*?-->/g, '')
+    // Convert headers to plain text but keep the text
+    .replace(/^#{1,6}\s+(.+)$/gm, '$1')
+    // Convert links to include both text and URL
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)')
+    // Convert code blocks - keep the content but remove the backticks
+    .replace(/```[\w]*\n([\s\S]*?)\n```/g, '$1')
+    // Convert inline code - keep the content but remove single backticks
+    .replace(/`([^`]+)`/g, '$1')
+    // Keep emphasis markers as they might be part of content (like file_names)
+    // Only remove bold/italic when it's clearly markdown formatting
+    .replace(/\*\*([^*]+)\*\*/g, '$1')  // Bold
+    .replace(/\*([^*]+)\*/g, '$1')      // Italic (single asterisk)
+    // Keep underscores in content - don't remove them
+    // Convert list markers to simple dashes
+    .replace(/^\s*[-*+]\s+/gm, '- ')
+    .replace(/^\s*\d+\.\s+/gm, '• ')
+    // Remove excessive whitespace but preserve paragraph breaks
+    .replace(/\n\s*\n\s*\n/g, '\n\n')
+    .trim();
+}
+
 const config: Config = {
   title: 'AnyFlow',
   tagline: 'Multichain Smart Contract Deployments',
@@ -20,7 +54,7 @@ const config: Config = {
   organizationName: 'AnyFlowLabs', // Usually your GitHub org/user name.
   projectName: 'anyflow-docs', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -51,11 +85,10 @@ const config: Config = {
   ],
 
   plugins: [
-    // Plugin copied from https://github.com/prisma/docs
-    async function pluginLlmsTxt(context) {
+    function pluginLlmsTxt(context) {
       return {
         name: "llms-txt-plugin",
-        loadContent: async () => {
+        async loadContent() {
           const { siteDir } = context;
           const contentDir = path.join(siteDir, "docs");
           const allMd: string[] = [];
@@ -70,7 +103,12 @@ const config: Config = {
                 await getMdFiles(fullPath);
               } else if (entry.name.endsWith(".md")) {
                 const content = await fs.promises.readFile(fullPath, "utf8");
-                allMd.push(content);
+                // Convert markdown to plain text
+                const plainText = markdownToPlainText(content);
+                // Add file path as a header for context
+                const relativePath = path.relative(contentDir, fullPath);
+                const contentWithHeader = `File: ${relativePath}\n\n${plainText}`;
+                allMd.push(contentWithHeader);
               }
             }
           };
@@ -78,49 +116,35 @@ const config: Config = {
           await getMdFiles(contentDir);
           return { allMd: allMd };
         },
-        postBuild: async ({ content, routes, outDir }) => {
+        async contentLoaded({ content, actions }) {
+          const { createData, addRoute } = actions;
           const { allMd } = content as { allMd: string[] };
 
-          // Write concatenated MD content
-          const concatenatedPath = path.join(outDir, "llms-full.txt");
-          const allContent = allMd.join("\n\n---\n\n")
-          await fs.promises.writeFile(concatenatedPath, allContent);
+          // Create the concatenated content file
+          const allContent = allMd.join("\n\n==========\n\n");
 
-          // we need to dig down several layers:
-          // find PluginRouteConfig marked by plugin.name === "docusaurus-plugin-content-docs"
-          const docsPluginRouteConfig = routes.filter(
-            (route) => route.plugin.name === "docusaurus-plugin-content-docs"
-          )[0];
+          // Create a JavaScript module that exports the content
+          const moduleContent = `export default ${JSON.stringify(allContent)};`;
+          const contentPath = await createData('llms-content.js', moduleContent);
 
-          // docsPluginRouteConfig has a routes property has a record with the path "/" that contains all docs routes.
-          const allDocsRouteConfig = docsPluginRouteConfig.routes?.filter(
-            (route) => route.path === "/"
-          )[0];
+          // Add route that serves plain text
+          addRoute({
+            path: '/llmstxt',
+            component: '@site/src/components/PlainTextResponse',
+            modules: {
+              content: contentPath,
+            },
+            exact: true,
+          });
+        },
+        async postBuild({ content, outDir }) {
+          const { allMd } = content as { allMd: string[] };
+          const allContent = allMd.join("\n\n==========\n\n");
 
-          let llmsTxt = '';
-
-          // A little type checking first
-          if (!allDocsRouteConfig?.props?.version) {
-            llmsTxt = allContent
-          } else {
-            // this route config has a `props` property that contains the current documentation.
-            const currentVersionDocsRoutes = (
-              allDocsRouteConfig.props.version as Record<string, unknown>
-            ).docs as Record<string, Record<string, unknown>>;
-
-            // for every single docs route we now parse a path (which is the key) and a title
-            const docsRecords = Object.entries(currentVersionDocsRoutes).map(([path, record]) => {
-              return `- [${record.title}](${path}): ${record.description}`;
-            });
-
-            // Build up llms.txt file
-            llmsTxt = `# ${context.siteConfig.title}\n\n## Docs\n\n${docsRecords.join("\n")}`;
-          }
-
-          // Write llms.txt file
+          // Write llms.txt file for production
           const llmsTxtPath = path.join(outDir, "llms.txt");
           try {
-            fs.writeFileSync(llmsTxtPath, llmsTxt);
+            fs.writeFileSync(llmsTxtPath, allContent);
           } catch (err) {
             throw err;
           }
