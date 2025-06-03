@@ -28,7 +28,7 @@ Currently, the system uses Alchemy, Infura, Ankr, ThirdWeb, and each chain's off
 
 ### Which block explorers are supported?
 
-Currently only Etherscan.
+Currently Etherscan and Blockscout are supported.
 
 ### Where are the private keys stored?
 
