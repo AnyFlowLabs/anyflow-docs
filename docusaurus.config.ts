@@ -1,42 +1,7 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
-import path from 'path';
-import fs from 'fs';
-
-// Function to strip frontmatter from markdown content
-function stripFrontmatter(content: string): string {
-  const frontmatterRegex = /^---\n([\s\S]*?)\n---\n/;
-  return content.replace(frontmatterRegex, '');
-}
-
-// Function to convert markdown to plain text (less aggressive conversion)
-function markdownToPlainText(content: string): string {
-  return content
-    // Remove frontmatter
-    .replace(/^---[\s\S]*?---\n/, '')
-    // Remove HTML comments
-    .replace(/<!--[\s\S]*?-->/g, '')
-    // Convert headers to plain text but keep the text
-    .replace(/^#{1,6}\s+(.+)$/gm, '$1')
-    // Convert links to include both text and URL
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1 ($2)')
-    // Convert code blocks - keep the content but remove the backticks
-    .replace(/```[\w]*\n([\s\S]*?)\n```/g, '$1')
-    // Convert inline code - keep the content but remove single backticks
-    .replace(/`([^`]+)`/g, '$1')
-    // Keep emphasis markers as they might be part of content (like file_names)
-    // Only remove bold/italic when it's clearly markdown formatting
-    .replace(/\*\*([^*]+)\*\*/g, '$1')  // Bold
-    .replace(/\*([^*]+)\*/g, '$1')      // Italic (single asterisk)
-    // Keep underscores in content - don't remove them
-    // Convert list markers to simple dashes
-    .replace(/^\s*[-*+]\s+/gm, '- ')
-    .replace(/^\s*\d+\.\s+/gm, '• ')
-    // Remove excessive whitespace but preserve paragraph breaks
-    .replace(/\n\s*\n\s*\n/g, '\n\n')
-    .trim();
-}
+import pluginLlmsTxt from './src/plugins/llms-txt-plugin'; // Import the new plugin
 
 const config: Config = {
   title: 'AnyFlow',
@@ -85,72 +50,7 @@ const config: Config = {
   ],
 
   plugins: [
-    function pluginLlmsTxt(context) {
-      return {
-        name: "llms-txt-plugin",
-        async loadContent() {
-          const { siteDir } = context;
-          const contentDir = path.join(siteDir, "docs");
-          const allMd: string[] = [];
-
-          // recursive function to get all md files
-          const getMdFiles = async (dir: string) => {
-            const entries = await fs.promises.readdir(dir, { withFileTypes: true });
-
-            for (const entry of entries) {
-              const fullPath = path.join(dir, entry.name);
-              if (entry.isDirectory()) {
-                await getMdFiles(fullPath);
-              } else if (entry.name.endsWith(".md")) {
-                const content = await fs.promises.readFile(fullPath, "utf8");
-                // Convert markdown to plain text
-                const plainText = markdownToPlainText(content);
-                // Add file path as a header for context
-                const relativePath = path.relative(contentDir, fullPath);
-                const contentWithHeader = `File: ${relativePath}\n\n${plainText}`;
-                allMd.push(contentWithHeader);
-              }
-            }
-          };
-
-          await getMdFiles(contentDir);
-          return { allMd: allMd };
-        },
-        async contentLoaded({ content, actions }) {
-          const { createData, addRoute } = actions;
-          const { allMd } = content as { allMd: string[] };
-
-          // Create the concatenated content file
-          const allContent = allMd.join("\n\n==========\n\n");
-
-          // Create a JavaScript module that exports the content
-          const moduleContent = `export default ${JSON.stringify(allContent)};`;
-          const contentPath = await createData('llms-content.js', moduleContent);
-
-          // Add route that serves plain text
-          addRoute({
-            path: '/llmstxt',
-            component: '@site/src/components/PlainTextResponse',
-            modules: {
-              content: contentPath,
-            },
-            exact: true,
-          });
-        },
-        async postBuild({ content, outDir }) {
-          const { allMd } = content as { allMd: string[] };
-          const allContent = allMd.join("\n\n==========\n\n");
-
-          // Write llms.txt file for production
-          const llmsTxtPath = path.join(outDir, "llms.txt");
-          try {
-            fs.writeFileSync(llmsTxtPath, allContent);
-          } catch (err) {
-            throw err;
-          }
-        },
-      };
-    },
+    pluginLlmsTxt,
   ],
 
   themeConfig: {

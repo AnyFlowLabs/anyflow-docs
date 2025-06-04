@@ -42,9 +42,15 @@ importers:
       '@docusaurus/types':
         specifier: ^3.8.0
         version: 3.8.0(acorn@8.14.1)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@types/express':
+        specifier: ^4.17.22
+        version: 4.17.22
       '@types/node':
         specifier: ^22.15.3
         version: 22.15.3
+      '@types/webpack-dev-server':
+        specifier: ^4.7.2
+        version: 4.7.2(webpack@5.99.9)
       typescript:
         specifier: ~5.2.2
         version: 5.2.2
@@ -1611,6 +1617,10 @@ packages:
 
   '@types/unist@3.0.3':
     resolution: {integrity: sha512-ko/gIFJRv177XgZsZcBwnqJN5x/Gien8qNOn0D5bQU/zAzVf9Zt3BlcUiLqhV9y4ARk0GbT3tnUiPNgnTXzc/Q==}
+
+  '@types/webpack-dev-server@4.7.2':
+    resolution: {integrity: sha512-Y3p0Fmfvp0MHBDoCzo+xFJaWTw0/z37mWIo6P15j+OtmUDLvznJWdZNeD7Q004R+MpQlys12oXbXsrXRmxwg4Q==}
+    deprecated: This is a stub types definition. webpack-dev-server provides its own type definitions, so you do not need this installed.
 
   '@types/ws@8.18.1':
     resolution: {integrity: sha512-ThVF6DCVhA8kUGy+aazFQ4kXQ7E1Ty7A3ypFOe0IcJV8O/M511G99AW24irKrW56Wt44yG9+ij8FaqoBGkuBXg==}
@@ -7773,6 +7783,17 @@ snapshots:
   '@types/unist@2.0.11': {}
 
   '@types/unist@3.0.3': {}
+
+  '@types/webpack-dev-server@4.7.2(webpack@5.99.9)':
+    dependencies:
+      webpack-dev-server: 4.15.2(webpack@5.99.9)
+    transitivePeerDependencies:
+      - bufferutil
+      - debug
+      - supports-color
+      - utf-8-validate
+      - webpack
+      - webpack-cli
 
   '@types/ws@8.18.1':
     dependencies:
