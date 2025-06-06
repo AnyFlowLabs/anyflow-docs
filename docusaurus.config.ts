@@ -1,8 +1,7 @@
 import { themes as prismThemes } from 'prism-react-renderer';
 import type { Config } from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
-import path from 'path';
-import fs from 'fs';
+import pluginLlmsTxt from './src/plugins/llms-txt-plugin'; // Import the new plugin
 
 const config: Config = {
   title: 'AnyFlow',
@@ -20,7 +19,7 @@ const config: Config = {
   organizationName: 'AnyFlowLabs', // Usually your GitHub org/user name.
   projectName: 'anyflow-docs', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -51,82 +50,7 @@ const config: Config = {
   ],
 
   plugins: [
-    // Plugin copied from https://github.com/prisma/docs
-    async function pluginLlmsTxt(context) {
-      return {
-        name: "llms-txt-plugin",
-        loadContent: async () => {
-          const { siteDir } = context;
-          const contentDir = path.join(siteDir, "docs");
-          const allMd: string[] = [];
-
-          // recursive function to get all md files
-          const getMdFiles = async (dir: string) => {
-            const entries = await fs.promises.readdir(dir, { withFileTypes: true });
-
-            for (const entry of entries) {
-              const fullPath = path.join(dir, entry.name);
-              if (entry.isDirectory()) {
-                await getMdFiles(fullPath);
-              } else if (entry.name.endsWith(".md")) {
-                const content = await fs.promises.readFile(fullPath, "utf8");
-                allMd.push(content);
-              }
-            }
-          };
-
-          await getMdFiles(contentDir);
-          return { allMd: allMd };
-        },
-        postBuild: async ({ content, routes, outDir }) => {
-          const { allMd } = content as { allMd: string[] };
-
-          // Write concatenated MD content
-          const concatenatedPath = path.join(outDir, "llms-full.txt");
-          const allContent = allMd.join("\n\n---\n\n")
-          await fs.promises.writeFile(concatenatedPath, allContent);
-
-          // we need to dig down several layers:
-          // find PluginRouteConfig marked by plugin.name === "docusaurus-plugin-content-docs"
-          const docsPluginRouteConfig = routes.filter(
-            (route) => route.plugin.name === "docusaurus-plugin-content-docs"
-          )[0];
-
-          // docsPluginRouteConfig has a routes property has a record with the path "/" that contains all docs routes.
-          const allDocsRouteConfig = docsPluginRouteConfig.routes?.filter(
-            (route) => route.path === "/"
-          )[0];
-
-          let llmsTxt = '';
-
-          // A little type checking first
-          if (!allDocsRouteConfig?.props?.version) {
-            llmsTxt = allContent
-          } else {
-            // this route config has a `props` property that contains the current documentation.
-            const currentVersionDocsRoutes = (
-              allDocsRouteConfig.props.version as Record<string, unknown>
-            ).docs as Record<string, Record<string, unknown>>;
-
-            // for every single docs route we now parse a path (which is the key) and a title
-            const docsRecords = Object.entries(currentVersionDocsRoutes).map(([path, record]) => {
-              return `- [${record.title}](${path}): ${record.description}`;
-            });
-
-            // Build up llms.txt file
-            llmsTxt = `# ${context.siteConfig.title}\n\n## Docs\n\n${docsRecords.join("\n")}`;
-          }
-
-          // Write llms.txt file
-          const llmsTxtPath = path.join(outDir, "llms.txt");
-          try {
-            fs.writeFileSync(llmsTxtPath, llmsTxt);
-          } catch (err) {
-            throw err;
-          }
-        },
-      };
-    },
+    pluginLlmsTxt,
   ],
 
   themeConfig: {

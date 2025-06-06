@@ -1,5 +1,5 @@
 ---
-sidebar_position: 1
+sidebar_position: 2
 ---
 
 # Getting Started
@@ -9,6 +9,8 @@ Welcome to AnyFlow, the platform designed to simplify and automate the deploymen
 <!-- ## Overview
 AnyFlow enables web3 developers to deploy smart contracts across multiple blockchains with ease. Whether you're a solo developer or part of a larger team, AnyFlow provides the tools and workflows to streamline your deployment process. No more RPC configurations, API key management, faucets or chain-specific settings — AnyFlow handles it all for you. -->
 
+If you have any questions or need help, feel free to reach out to us on [Discord](https://discord.gg/aCygGwBWya) or [Twitter/X](https://x.com/anyflow_).
+,
 ## Step 0: Fork our Hello World project
 
 If you do not have a project to deploy, you can fork our Hello World project to get started fast. This Hardhat project contains a simple smart contract that you can deploy to any supported chain to quickly test AnyFlow.
@@ -21,15 +23,21 @@ Visit the [AnyFlow app](https://app.anyflow.pro/) and authenticate using your Gi
 
 ![](./img/login.png)
 
-## Step 2: Select Your Repository
+## Step 2: Select Environment
 
-Next, select the account, repository and branch you wish to deploy from. AnyFlow will then automatically detect your project's configuration and dependencies.
+Select the environment you want to deploy to.
+
+![](./img/environment.png)
+
+## Step 3: Select Your Repository
+
+Next, select the repository and branch you wish to deploy from. AnyFlow will then automatically detect your project's configuration and dependencies.
 
 If your Hardhat project is not on the repository's root directory, you can specify the path by checking the "custom root directory" option.
 
 ![](./img/repository.png)
 
-## Step 3: Configure Your Project
+## Step 4: Configure Your Project
 Once your repository is connected, configure your deployment:
 
 Select the blockchain networks you wish to deploy to (e.g., Ethereum, Polygon).
@@ -39,12 +47,14 @@ If you used environment variables in your deployment scripts, you can set them h
 
 ![](./img/config.png)
 
-## Step 4: Deploy Your Smart Contracts
+## Step 5: Deploy Your Smart Contracts
 With your project configured, you're ready to deploy:
 
 Click "Next" to check all deployment configuration and if everything is correct, click "Deploy".
 AnyFlow will automatically handle the deployment process, including funding deployer accounts, retrying if anything fails, and managing API keys.
 Monitor the deployment status in real-time, and view the results once complete.
+
+![](./img/deploy.png)
 
 ## Next Steps
 Congratulations on deploying your first smart contracts with AnyFlow!
