@@ -7,6 +7,12 @@ You are free to use the AnyFlow MCP without an API key. However, some features a
 
 To get your API key, log into the [AnyFlow Webapp](https://app.anyflow.pro/) and visit [API Keys](https://app.anyflow.pro/settings/api) section.
 
+After installing AnyFlow MCP, you can deploy a project using this simple prompt:
+
+```
+Deploy this project using AnyFlow MCP
+```
+
 ## How to Install AnyFlow MCP on Cursor IDE
 
 ### Step 1: Add AnyFlow MCP to Cursor IDE
@@ -37,8 +43,8 @@ Paste the following configuration into `Cursor Settings > MCP > Add new global M
 
 ## How to Install AnyFlow MCP on Claude Desktop
 
-TODO
+Support for Claude Desktop is coming soon.
 
 ## How to use AnyFlow MCP in ChatGPT
 
-TODO
+Support for ChatGPT is coming soon.
