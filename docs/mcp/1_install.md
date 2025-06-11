@@ -28,7 +28,7 @@ Paste the following configuration into `Cursor Settings > MCP > Add new global M
         "-y",
         "supergateway",
         "--sse",
-        "https://api.anyflow.pro/mcp/sse",
+        "https://mcp.anyflow.pro/sse",
         "--oauth2Bearer",
         "YOUR_ANYFLOW_API_KEY"
       ]
