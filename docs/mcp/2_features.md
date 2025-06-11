@@ -16,9 +16,9 @@
 - **Deployment History**: Track and review your contract deployments
 
 ### Smart Contract Deployment
-- **Template-Based Deployment**: Deploy pre-built, audited smart contract templates
+<!-- - **Template-Based Deployment**: Deploy pre-built, audited smart contract templates -->
 - **Local Project Deployment**: Deploy contracts directly from your machine
-- **AI Workspace Deployment**: Deploy contracts from the AI agent's workspace
+<!-- - **AI Workspace Deployment**: Deploy contracts from the AI agent's workspace -->
 - **Multi-Chain Support**: Deploy to any supported EVM-compatible blockchain
 
 ## Available Tools
@@ -30,7 +30,7 @@
 | `anyflow_welcome` | Get started with AnyFlow's MCP interface |
 | `anyflow_docs` | Interactive documentation and help |
 | `anyflow_cli_help` | Command-line interface guidance |
-| `anyflow_template_list` | Browse available contract templates |
+<!-- | `anyflow_template_list` | Browse available contract templates | -->
 
 ### Authenticated Tools
 
@@ -39,6 +39,6 @@
 | `anyflow_get_user` | Retrieve account information and limits |
 | `anyflow_projects_list` | List your deployed projects |
 | `anyflow_project_info` | Get detailed project information |
-| `anyflow_project_upload` | Upload a new project |
-| `anyflow_deploy` | Deploy a contract from an uploaded project |
-| `anyflow_template_deploy` | Deploy a template contract |
+<!-- | `anyflow_project_upload` | Upload a new project | -->
+<!-- | `anyflow_deploy` | Deploy a contract from an uploaded project | -->
+<!-- | `anyflow_template_deploy` | Deploy a template contract | -->
